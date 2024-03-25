@@ -1,5 +1,42 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-# Create your views here.
+from .models import Pergunta
+
 def index(request):
-    return HttpResponse('Aplicação de enquetes - DsWeb 2024.1 <br> Nome: Anna Júlia Fernandes Barbosa <br> Matrícula:20172014040018 <br> Semestre:2024.1' )
+    lista= Pergunta.objects.all()
+    resultado = '<br/>'.join(p.texto for p in lista)
+    enquetes = Pergunta.objects.order_by('-data_pub')[:10]
+    contexto = {'lista_enquetes': enquetes}
+    return render(request, 'enquetes/index.html', contexto)
+
+def detalhes(request, pergunta_id):
+    pergunta = get_object_or_404(Pergunta, pk=pergunta_id)
+    contexto = {'enquete': pergunta}
+    return render (request, 'enquetes/detalhes.html',contexto)
+
+
+def votacao(request, pergunta_id):
+    resultado = 'VOTAÇÃO da enquete de número %s'
+    return HttpResponse(resultado % pergunta_id)
+
+
+def resultado(request, pergunta_id):
+    resultado = 'RESULTADO da enquete de número %s'
+    return HttpResponse(resultado % pergunta_id)
+
+####
+## Histórico de Versões
+"""
+--> View INDEX - Versão 1
+def index(request):
+    enquetes = Pergunta.objects.all()
+    template = loader.get_template('enquetes/index.html')
+    contexto = {'lista_enquetes': enquetes}
+    return HttpResponse(template.render(contexto, request))
+
+--> View DETALHES - Versão 1
+def detalhes(request, pergunta_id):
+    resultado = 'DETALHES da enquete de número %s'
+    return HttpResponse(resultado % pergunta_id)
+
+"""

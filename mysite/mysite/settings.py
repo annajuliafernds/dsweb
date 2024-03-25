@@ -31,6 +31,8 @@ ALLOWED_HOSTS = ['annajuliafernds.pythonanywhere.com']
 # Application definition
 
 INSTALLED_APPS = [
+    'raiz.apps.RaizConfig',
+    'enquetes.apps.EnquetesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
