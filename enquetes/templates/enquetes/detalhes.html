@@ -1,34 +1,132 @@
+<!DOCTYPE html>
 <html>
     <head>
         <title>App Enquetes</title>
+        <style>
+            @font-face {
+                font-family: 'Gotham';
+                src: url('fonts/gotham.woff2') format('woff2'),
+                     url('fonts/gotham.woff') format('woff');
+                font-weight: normal;
+                font-style: normal;
+            }
+
+            body {
+                font-family: 'Gotham', sans-serif;
+                background-color: #5F1F60; /* Cor de fundo roxa */
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                color: #fff; /* Cor do texto branca para contraste */
+                box-sizing: border-box;
+            }
+
+            h1, h2 {
+                color: #fff;
+                text-align: center;
+                margin: 10px 0;
+            }
+
+            p {
+                color: #ddd;
+                text-align: center;
+            }
+
+            form {
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+                width: 80%;
+                max-width: 600px;
+                margin: 20px auto;
+                color: #000; /* Cor do texto dentro do form */
+            }
+
+            ul {
+                list-style-type: none;
+                padding: 0;
+            }
+
+            li {
+                background-color: #B864BA; /* Cor de fundo dos itens da lista */
+                border: 1px solid #ddd;
+                margin: 10px 0;
+                padding: 10px;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+            input[type="radio"] {
+                margin-right: 10px;
+            }
+
+            input[type="submit"], .btn-back {
+                background-color: #B864BA; /* Cor de fundo dos botões */
+                color: #fff; /* Cor do texto dos botões */
+                border: none;
+                padding: 10px 20px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 1em;
+                margin-top: 10px;
+            }
+
+            input[type="submit"]:hover, .btn-back:hover {
+                background-color: #9c4d8c; /* Cor de fundo dos botões ao passar o mouse */
+            }
+
+            .btn-back {
+                background-color: #6c4f6d; /* Cor de fundo específica para o botão voltar */
+                margin-top: 20px;
+            }
+
+            hr {
+                width: 80%;
+                max-width: 600px;
+                border: 1px solid #ddd;
+                margin: 20px auto;
+            }
+
+            a {
+                text-decoration: none;
+                color: #add8e6; /* Cor do link */
+                display: block;
+                text-align: center;
+                margin-top: 20px;
+            }
+
+            a:hover {
+                text-decoration: underline;
+            }
+        </style>
     </head>
     <body>
         <h1>Aplicação de Enquetes</h1>
-        <h2>Enquete #{{ enquete.id}}</h2>
+        <h2>Enquete #{{ enquete.id }}</h2>
         <h2>{{ enquete.texto }}</h2>
         <p><i>{{ enquete.data_pub }}</i></p>
         {% if error %}
-        <p> <b>Erro: {{ error }}</b></p>
+        <p><b>Erro: {{ error }}</b></p>
         {% endif %}
         <p>Selecione a Alternativa desejada:</p>
-        <form action = "{%url 'enquetes:votacao' enquete.id%}"
-            method="post">
-            {%csrf_token%}
-        <ul>
-        {% for alt in enquete.alternativa_set.all %}
-        <li>
-            <input type="radio" name ="escolha" value = "{{alt.id}}"
-            id = "alt {{forloop.counter}}"/>
-            <label for="alt{{ forloop.counter }}">
-                {{alt.texto}}
-            </label>
-        </li>
-        {% endfor %}
-        </ul>
-        <input type ="submit" value="votacao">
+        <form action="{% url 'enquetes:votacao' enquete.id %}" method="post">
+            {% csrf_token %}
+            <ul>
+                {% for alt in enquete.alternativa_set.all %}
+                <li>
+                    <input type="radio" name="escolha" value="{{ alt.id }}" id="alt{{ forloop.counter }}" />
+                    <label for="alt{{ forloop.counter }}">{{ alt.texto }}</label>
+                </li>
+                {% endfor %}
+            </ul>
+            <input type="submit" value="Votar" />
+            <a href="{% url 'enquetes:index' %}" class="btn-back">Voltar</a>
         </form>
-
         <hr>
-        <a href = "{% url 'enquetes:index' %}
     </body>
 </html>

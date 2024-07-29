@@ -1,22 +1,102 @@
+<!DOCTYPE html>
 <html>
     <head>
         <title>App Enquetes</title>
+        <style>
+            @font-face {
+                font-family: 'Gotham';
+                src: url('fonts/gotham.woff2') format('woff2'),
+                     url('fonts/gotham.woff') format('woff');
+                font-weight: normal;
+                font-style: normal;
+            }
+
+            body {
+                font-family: 'Gotham', sans-serif;
+                background-color: #5F1F60; /* Cor de fundo roxa */
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 600px;
+                color: #fff; /* Cor do texto branca para contraste */
+            }
+
+            h1 {
+                color: #423E3E;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            h2 {
+                color: #423E3E;
+                text-align: center;
+            }
+
+            ul {
+                list-style-type: none;
+                padding: 0;
+            }
+
+            li {
+                background-color: #B864BA; /* Cor de fundo dos itens da lista */
+                border: 1px solid #ddd;
+                margin: 10px 0;
+                padding: 10px;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+            a {
+                text-decoration: none;
+                color: #FFFFFF; /* Cor do link */
+            }
+
+            a:hover {
+                text-decoration: underline;
+            }
+
+            .container {
+                width: 80%;
+                max-width: 600px;
+                margin: 0 auto;
+                background-color: #fff;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+                color: #000; /* Cor do texto dentro do container */
+            }
+
+            .footer {
+                text-align: center;
+                margin-top: 20px;
+                font-size: 0.9em;
+                color: #ddd;
+            }
+        </style>
     </head>
     <body>
-        <h1>Aplicação de Enquetes - DSWeb 2024.1</h1>
-        {% if lista_enquetes %}
-            <h3>Lista das Enquetes Cadastradas:</h3>
-            <ul>
-                {% for p in lista_enquetes %}
-                    <li>
-                        <a href="{% url 'enquetes:detalhes' p.id %}">
-                            {{ p.texto }}
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <h3>Nenhuma enquete cadastrada até o momento!</h3>
-        {% endif %}
+        <div class="container">
+            <h1>Aplicação de Enquetes - DSWeb 2024.1</h1>
+            {% if lista_enquetes %}
+                <h2>Lista das Enquetes Cadastradas:</h2>
+                <ul>
+                    {% for p in lista_enquetes %}
+                        <li>
+                            <a href="{% url 'enquetes:detalhes' p.id %}">
+                                {{ p.texto }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <h3>Nenhuma enquete cadastrada até o momento!</h3>
+            {% endif %}
+        </div>
+        <div class="footer">
+            Desenvolvido por Anna Júlia Fernandes Barbosa
+        </div>
     </body>
 </html>
